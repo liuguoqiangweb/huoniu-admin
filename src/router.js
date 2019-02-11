@@ -29,6 +29,7 @@ export default new Router({
     {
       path: '/main', component: Main,
       children: [
+        { path:'',redirect:'/table/list'},
         { path: '/settings', component: GlobalSettings },
         { path: '/table/list', component: TableList },
         { path: '/table/add', component: TableAdd },

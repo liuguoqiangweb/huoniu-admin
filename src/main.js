@@ -8,56 +8,53 @@ import axios from 'axios'
 
 // 插件和全局对象的设置
 Vue.use(ElementUI)  //注册ElementUI插件
+// 把axios设置为所有Vue组件实例的成员属性，以后可以使用thiis.$axios
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
-var myPlugin = {
-  install: function (vue) { 
-    // 日期过滤器
-    vue.filter('date', (val) => {
-      //把bigint转换为yyyy-mm-dd
-      var date = new Date(val)
-      var yy = date.getFullYear()
-      var mm = date.getMonth() + 1
-      mm = mm > 9 ? mm : '0' + mm
-      var dd = date.getDate()
-      dd = dd > 9 ? dd : '0' + dd
-      return yy + '-' + mm + '-' + dd
-    }),
-    // 时间过滤器
-    vue.filter('datetime', (val) => {
-      //把bigint转换为yyyy-mm-dd hh:mm:ss
-      var date = new Date(val)
-      var yy = date.getFullYear()
-      var mm = date.getMonth() + 1
-      mm = mm > 9 ? mm : '0' + mm
-      var dd = date.getDate()
-      dd = dd > 9 ? dd : '0' + dd
+// 日期过滤器
+Vue.filter('date', (val) => {
+  //把bigint转换为yyyy-mm-dd
+  var date = new Date(val)
+  var yy = date.getFullYear()
+  var mm = date.getMonth() + 1
+  mm = mm > 9 ? mm : '0' + mm
+  var dd = date.getDate()
+  dd = dd > 9 ? dd : '0' + dd
+  return yy + '-' + mm + '-' + dd
+}),
+// 时间过滤器
+Vue.filter('datetime', (val) => {
+  //把bigint转换为yyyy-mm-dd hh:mm:ss
+  var date = new Date(val)
+  var yy = date.getFullYear()
+  var mm = date.getMonth() + 1
+  mm = mm > 9 ? mm : '0' + mm
+  var dd = date.getDate()
+  dd = dd > 9 ? dd : '0' + dd
 
-      var hh = date.getHours()
-      hh = hh > 9 ? hh : '0' + hh
-      var mi = date.getMinutes()
-      mi = mi > 9 ? mi : '0' + mi
-      var ss = date.getSeconds()
-      ss = ss > 9 ? ss : '0' + ss
+  var hh = date.getHours()
+  hh = hh > 9 ? hh : '0' + hh
+  var mi = date.getMinutes()
+  mi = mi > 9 ? mi : '0' + mi
+  var ss = date.getSeconds()
+  ss = ss > 9 ? ss : '0' + ss
 
-      return yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mi + ':' + ss
-    }),
-    // 金额过滤器
-    vue.filter('currency', (val) => {
-      //把int转换为￥xx.yy
-      return '￥' + val.toFixed(2)
-    }),
-    // 桌台状态过滤器
-    vue.filter('tableStatus', (val) => {
-      if (val == 1) { return '空闲' }
-      else if (val == 2) { return '预定' }
-      else if (val == 3) { return '占用' }
-      else { return '其他'}
-    })
-  }
-}
-Vue.use(myPlugin)
+  return yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mi + ':' + ss
+}),
+// 金额过滤器
+Vue.filter('currency', (val) => {
+  //把int转换为￥xx.yy
+  return '￥' + val.toFixed(2)
+}),
+// 桌台状态过滤器
+Vue.filter('tableStatus', (val) => {
+  if (val == 1) return '空闲';
+  else if (val == 2) return '预定';
+  else if (val == 3) return '占用';
+  else return '其它';
+})
+
 new Vue({
   router,
   store,//指定当前项目唯一的Vuex存储仓库对象，其中保存着
